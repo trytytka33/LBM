@@ -1,0 +1,39 @@
+# Build directories
+build/
+bin/
+obj/
+out/
+
+# Executables
+*.exe
+*.out
+lbm.exe
+test.exe
+
+# IDE files
+.vscode/
+*.code-workspace
+
+# CMake generated files
+.cmake/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# Compiled files
+*.o
+*.obj
+*.dll
+*.so
+*.dylib
+
+# Images (jeśli nie są częścią assetsów)
+*.png
+*.jpg
+*.jpeg
+
+# OS files
+.DS_Store
+Thumbs.db
