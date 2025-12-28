@@ -4,13 +4,13 @@
 #include "Button.h"
 #include "Renderer.h"
 #include "InputHandler.h"
+#include "Simulation.h"
 #include <iostream>
 
 int main() {
     const char* title = "LBM Simulation";
     InitWindow(consts::WINDOW_W, consts::WINDOW_H, title);
-    SetTargetFPS(60); 
-    
+    SetTargetFPS(60);
     Grid grid;
     grid.initBorder();
     grid.initObstacle();
@@ -31,18 +31,15 @@ int main() {
         
         if (startButton.isPressed()) {
             simulationRunning = !simulationRunning;
-            std::cout << (simulationRunning ? "Simulation started" : "Simulation paused") 
-                     << std::endl;
+                if(startButton.isPressed()) simulationRunning == true;
         }
         if (clearButton.isPressed()) {
             simulationRunning = false;
             grid.reset();
-            std::cout << "Grid cleared" << std::endl;
         }
         
-        if (!simulationRunning) {
-            InputHandler::handleMouseInput(grid);
-        }
+        if (!simulationRunning)     InputHandler::handleMouseInput(grid);
+        
         
         // TODO: Add LBM simulation step here when simulationRunning == true
         

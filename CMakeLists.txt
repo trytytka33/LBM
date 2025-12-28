@@ -21,6 +21,7 @@ add_executable(lbm
     src/Button.cpp
     src/Renderer.cpp
     src/InputHandler.cpp
+    src/Simulation.cpp
+    src/Cell.cpp
 )
-
 target_link_libraries(lbm ${RAYLIB_LIBS})

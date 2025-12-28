@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 namespace consts {
     // Grid settingss
@@ -15,18 +16,19 @@ namespace consts {
     constexpr int WINDOW_W = GRID_W * CELL_SIZE + 2 * PADDING_W + 150;  
     constexpr int WINDOW_H = GRID_H * CELL_SIZE + 2 * PADDING_H + 50;  
 
-    // Button 
+
     constexpr int BUTTON_W = 150;
     constexpr int BUTTON_H = 50;
 
-    // Obstacle 
+    // obstacle params
     constexpr int OBSTACLE_GAP_SIZE = 30;
     constexpr int OBSTACLE_GAP_START = 40;
     constexpr int OBSTACLE_GAP_END = OBSTACLE_GAP_SIZE + OBSTACLE_GAP_START;
     constexpr int OBSTACLE_COL = 70;
 
-    // cell types 
     constexpr int CELL_EMPTY = 0;
     constexpr int CELL_FLUID = 1;
     constexpr int CELL_OBSTACLE = 2;
+
+    const double weighting_coefficient_D2Q4 = 0.25;
 }

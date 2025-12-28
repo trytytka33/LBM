@@ -26,12 +26,14 @@ void Renderer::drawGridWithColors(const Grid& grid) {
             int gridX = consts::PADDING_LEFT + i * consts::CELL_SIZE;
             int gridY = consts::PADDING_H + j * consts::CELL_SIZE;
             
-            if (grid[i][j] == consts::CELL_FLUID) {
+            if (grid[i][j] == consts::CELL_OBSTACLE) {
+                DrawRectangle(gridX, gridY, consts::CELL_SIZE, consts::CELL_SIZE, BLACK);
+            } else if (grid[i][j] == consts::CELL_FLUID) {
+                float C = grid[i][j].get_concentration();
+                unsigned char intensity = (unsigned char)(C * 255);
+                Color fluidColor = {0, 0, intensity, 255}; 
                 DrawRectangle(gridX, gridY, consts::CELL_SIZE, 
-                             consts::CELL_SIZE, BLUE);
-            } else if (grid[i][j] == consts::CELL_OBSTACLE) {
-                DrawRectangle(gridX, gridY, consts::CELL_SIZE, 
-                             consts::CELL_SIZE, BLACK);
+                             consts::CELL_SIZE, fluidColor);
             }
         }
     }
