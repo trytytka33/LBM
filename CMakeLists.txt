@@ -4,7 +4,11 @@ project(LBM)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(raylib QUIET)
-
+if(APPLE)
+    execute_process(COMMAND brew --prefix OUTPUT_VARIABLE BREW_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
+    include_directories(${BREW_PREFIX}/include)
+    link_directories(${BREW_PREFIX}/lib)
+endif()
 if(NOT raylib_FOUND)
     include_directories(C:/msys64/ucrt64/include)
     link_directories(C:/msys64/ucrt64/lib)

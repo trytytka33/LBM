@@ -2,20 +2,17 @@
 
 Grid::Grid() : grid(consts::GRID_W, std::vector<Cell>(consts::GRID_H, Cell())) {};
 
+
 std::vector<std::vector<Cell>> Grid::getGrid() const {
     return grid;
 }   
+
 
 void Grid::setGrid(int x, int y, int val) {
     if (x >= 0 && x < consts::GRID_W && y >= 0 && y < consts::GRID_H) {
         grid[x][y].set_state(val);
     }
 }
-
-/*void Grid::set_cell(int x , int y, int state){
-    grid[x][y].set_state(state);
-}
-*/
 
 int Grid::getWidth() const { 
     return static_cast<int>(grid.size()); 
@@ -58,6 +55,17 @@ void Grid::initObstacle() {
             grid[consts::OBSTACLE_COL][i].set_state(consts::CELL_OBSTACLE);
         } else {
             grid[consts::OBSTACLE_COL][i].set_state(consts::CELL_EMPTY);
+        }
+    }
+}
+void init_cells(std::vector<std::vector<Cell>> &grid){
+    for(int i = 0; i < consts::GRID_W; i++){
+        for(int j = 0; j  < consts::GRID_H; j++){
+            if(i > consts::OBSTACLE_COL - 1) {
+                grid[i][j].set_concentration(1.0);
+            } else { 
+                grid[i][j].set_concentration(0.0);
+            }
         }
     }
 }

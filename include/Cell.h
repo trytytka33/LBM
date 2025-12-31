@@ -10,12 +10,11 @@ private:
     float f_in[4];   
     float f_out[4];
     float f_eq[4];
-    
+public:    
     static const int dx[4];  // {1, 0, -1, 0}
     static const int dy[4];  // {0, 1, 0, -1}
     
-public:
-    // Konstruktor
+
     Cell(int x = 0, int y = 0, int s = 0, float C = 0.0);
     
     int get_x() const;

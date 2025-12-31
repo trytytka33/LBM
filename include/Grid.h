@@ -9,6 +9,7 @@ private:
 
 public:
     Grid();
+
     std::vector<std::vector<Cell>> getGrid() const;
     void setGrid(int x, int y, int val);
     Cell getCell();
@@ -20,7 +21,7 @@ public:
     void reset();
     void initBorder();
     void initObstacle();
-    
+    void init_grid();
     const std::vector<Cell>& operator[](int index) const;
     std::vector<Cell>& operator[](int index);
 };

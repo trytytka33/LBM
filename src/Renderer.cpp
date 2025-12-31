@@ -10,7 +10,6 @@ void Renderer::drawGrid() {
                  i, consts::GRID_H * consts::CELL_SIZE + consts::PADDING_H, 
                  BLACK);
     }
-    
     for (int j = consts::PADDING_H; 
          j <= consts::GRID_H * consts::CELL_SIZE + consts::PADDING_H; 
          j += consts::CELL_SIZE) {
@@ -32,8 +31,7 @@ void Renderer::drawGridWithColors(const Grid& grid) {
                 float C = grid[i][j].get_concentration();
                 unsigned char intensity = (unsigned char)(C * 255);
                 Color fluidColor = {0, 0, intensity, 255}; 
-                DrawRectangle(gridX, gridY, consts::CELL_SIZE, 
-                             consts::CELL_SIZE, fluidColor);
+                DrawRectangle(gridX, gridY, consts::CELL_SIZE, consts::CELL_SIZE, fluidColor);
             }
         }
     }

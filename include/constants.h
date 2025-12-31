@@ -31,4 +31,5 @@ namespace consts {
     constexpr int CELL_OBSTACLE = 2;
 
     const double weighting_coefficient_D2Q4 = 0.25;
+    constexpr int num_of_directions = 4;
 }
