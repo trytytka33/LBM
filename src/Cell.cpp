@@ -1,8 +1,5 @@
 #include "Cell.h"
 
-const int Cell::dx[4] = {1, 0, -1, 0};   // prawo, góra, lewo, dół
-const int Cell::dy[4] = {0, 1, 0, -1};
-
 Cell::Cell(int x, int y, int s, float C) : x(x), y(y), state(s), concentration(C) {
     for(int i = 0; i < 4; i++) {
         f_in[i] = 0.0f;

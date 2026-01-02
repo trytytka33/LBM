@@ -1,79 +1,119 @@
 #include "Grid.h"
 
-Grid::Grid() : grid(consts::GRID_W, std::vector<Cell>(consts::GRID_H, Cell())) {};
+Grid::Grid() : cells(consts::GRID_W, std::vector<Cell>(consts::GRID_H, Cell()))
+{
+    init_grid();
+}
 
+std::vector<std::vector<Cell>> &Grid::getCells()
+{
+    return cells;
+}
 
-std::vector<std::vector<Cell>> Grid::getGrid() const {
-    return grid;
-}   
+void Grid::init_grid()
+{
+    for (int i = 0; i < consts::GRID_W; i++)
+    {
+        for (int j = 0; j < consts::GRID_H; j++)
+        {
+            cells[i][j].set_state(0);
+            cells[i][j].set_concentration(0.0f);
 
-
-void Grid::setGrid(int x, int y, int val) {
-    if (x >= 0 && x < consts::GRID_W && y >= 0 && y < consts::GRID_H) {
-        grid[x][y].set_state(val);
+            float *f_in = cells[i][j].get_f_in();
+            float *f_out = cells[i][j].get_f_out();
+            for (int k = 0; k < 4; k++)
+            {
+                f_in[k] = 0.0f;
+                f_out[k] = 0.0f;
+            }
+        }
     }
-}
+    initBorder();
+    initObstacle();
 
-int Grid::getWidth() const { 
-    return static_cast<int>(grid.size()); 
-}
+    for (int i = 1; i < consts::GRID_W - 1; i++)
+    {
+        for (int j = 1; j < consts::GRID_H - 1; j++)
+        {
+            if (cells[i][j].get_state() != 1)
+            {
+                float initial_conc = 0.0f;
 
-int Grid::getHeight() const { 
-    if (grid.empty()) {
-        return 0;
-    }
-    return static_cast<int>(grid[0].size()); 
-}
+                if (i < consts::OBSTACLE_COL)
+                {
 
-void Grid::reset() {
-    for (int i = 0; i < consts::GRID_W; i++) {
-        for (int j = 0; j < consts::GRID_H; j++) {
-            if (i == 0 || i == consts::GRID_W - 1 || j == 0 || j == consts::GRID_H - 1) { 
-                grid[i][j].set_state(consts::CELL_OBSTACLE);
-            } else if (i == consts::OBSTACLE_COL && (j < consts::OBSTACLE_GAP_START || j > consts::OBSTACLE_GAP_END)) {
-                grid[i][j].set_state(consts::CELL_OBSTACLE);
-            } else {
-                grid[i][j].set_state(consts::CELL_EMPTY);
+                    initial_conc = 1.0f;
+                }
+                else if (i > consts::OBSTACLE_COL)
+                {
+
+                    initial_conc = 0.0f;
+                }
+                else
+                {
+
+                    initial_conc = 0.5f;
+                }
+
+                cells[i][j].set_concentration(initial_conc);
+                float *f_in = cells[i][j].get_f_in();
+                float *f_out = cells[i][j].get_f_out();
+                float *f_eq = cells[i][j].get_f_eq();
+
+                for (int k = 0; k < 4; k++)
+                {
+                    f_in[k] = consts::weighting_coefficient_D2Q4 * initial_conc;
+                    f_out[k] = consts::weighting_coefficient_D2Q4 * initial_conc;
+                    f_eq[k] = consts::weighting_coefficient_D2Q4 * initial_conc;
+                }
             }
         }
     }
 }
 
-void Grid::initBorder() {
-    for (int i = 0; i < consts::GRID_W; i++) {
-        for (int j = 0; j < consts::GRID_H; j++) {
-            if (i == 0 || i == consts::GRID_W - 1 || j == 0 || j == consts::GRID_H - 1) {
-                grid[i][j].set_state(consts::CELL_OBSTACLE);
+void Grid::reset()
+{
+    for (int i = 0; i < consts::GRID_W; i++)
+    {
+        for (int j = 0; j < consts::GRID_H; j++)
+        {
+            cells[i][j].set_state(0);
+            cells[i][j].set_concentration(0.0f);
+
+            float *f_in = cells[i][j].get_f_in();
+            float *f_out = cells[i][j].get_f_out();
+            for (int k = 0; k < 4; k++)
+            {
+                f_in[k] = 0.0f;
+                f_out[k] = 0.0f;
+            }
+        }
+    }
+    initBorder();
+}
+
+void Grid::initBorder()
+{
+    for (int i = 0; i < consts::GRID_W; i++)
+    {
+        for (int j = 0; j < consts::GRID_H; j++)
+        {
+            if (i == 0 || i == consts::GRID_W - 1 || j == 0 || j == consts::GRID_H - 1)
+            {
+                cells[i][j].set_state(1);
             }
         }
     }
 }
 
-void Grid::initObstacle() {
-    for (int i = 0; i < consts::GRID_H; i++) {
-        if (i < consts::OBSTACLE_GAP_START || i > consts::OBSTACLE_GAP_END) {
-            grid[consts::OBSTACLE_COL][i].set_state(consts::CELL_OBSTACLE);
-        } else {
-            grid[consts::OBSTACLE_COL][i].set_state(consts::CELL_EMPTY);
+void Grid::initObstacle()
+{
+
+    for (int j = 0; j < consts::GRID_H; j++)
+    {
+        if (j < consts::OBSTACLE_GAP_START || j > consts::OBSTACLE_GAP_END)
+        {
+            cells[consts::OBSTACLE_COL][j].set_state(1);
         }
     }
-}
-void init_cells(std::vector<std::vector<Cell>> &grid){
-    for(int i = 0; i < consts::GRID_W; i++){
-        for(int j = 0; j  < consts::GRID_H; j++){
-            if(i > consts::OBSTACLE_COL - 1) {
-                grid[i][j].set_concentration(1.0);
-            } else { 
-                grid[i][j].set_concentration(0.0);
-            }
-        }
-    }
-}
-
-const std::vector<Cell>& Grid::operator[](int index) const {
-    return grid[index];
-}
-
-std::vector<Cell>& Grid::operator[](int index) {
-    return grid[index];
 }

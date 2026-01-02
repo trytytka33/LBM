@@ -2,6 +2,11 @@
 #include <vector>
 #include <iostream>
 #include "constants.h"
+#include "Cell.h"
 
-void calculate_concentration(double& concentration, int num_of_directions, std::vector<int>f_distribution);
-void collision();
+class Simulation{
+    public:
+    void calculate_concentration(double& concentration, float f_distribution[]);
+    void collision(Cell& cell, float tau, float t);   
+    void streaming(std::vector<std::vector<Cell>>& grid);
+};

@@ -5,18 +5,22 @@
 
 class Grid {
 private:
-    std::vector<std::vector<Cell>> grid;
+    std::vector<std::vector<Cell>> cells;
 
 public:
     Grid();
 
-    std::vector<std::vector<Cell>> getGrid() const;
+    std::vector<std::vector<Cell>>& getCells();
     void setGrid(int x, int y, int val);
     Cell getCell();
     int getWidth() const;
     int getHeight() const;
     
-    //void set_cell(int x , int y, int state); 
+
+    const std::vector<std::vector<Cell>>& getCells() const { 
+        return cells; 
+    }
+    
 
     void reset();
     void initBorder();
